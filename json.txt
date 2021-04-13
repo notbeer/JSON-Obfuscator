@@ -1,0 +1,19 @@
+{
+  "name": "jsonobfuscator",
+  "version": "1.0.0",
+  "description": "JSON Obfuscator is a method to make your json file harder to read!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+    /*
+*2
+*3
+*/
+  "author": "notbeer#9204",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0"
+  }
+}
