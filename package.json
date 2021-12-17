@@ -1,14 +1,27 @@
 {
-  "name": "jsonobfuscator",
+  "name": "json-obfuscator",
   "version": "1.0.0",
-  "description": "JSON Obfuscator is a method to make your json file harder to read!",
-  "main": "index.js",
+  "description": "Module to obfuscate JSON",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/index.test.js"
   },
-  "author": "notbeer#9204",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^4.1.0"
+  "types": "@types",
+  "author": {
+    "name": "notbeer",
+    "discord": "notbeer#9204"
+  },
+  "license": "AGPL-3.0-or-later",
+  "keywords": [
+    "obfuscator",
+    "json-obfuscator"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notbeer/dotlang.git"
+  },
+  "homepage": "https://github.com/notbeer/dotlang#readme",
+  "bugs": {
+    "url": "https://github.com/notbeer/dotlang/issues"
   }
 }
