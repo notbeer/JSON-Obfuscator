@@ -15,13 +15,5 @@
   "keywords": [
     "obfuscator",
     "json-obfuscator"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/notbeer/dotlang.git"
-  },
-  "homepage": "https://github.com/notbeer/dotlang#readme",
-  "bugs": {
-    "url": "https://github.com/notbeer/dotlang/issues"
-  }
+  ]
 }
