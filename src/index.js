@@ -34,11 +34,12 @@ function obfuscateJSON(value) {
  * @returns {string}
  */
 function getFileContent(path) {
+    if(!fs.existsSync(path)) throw new Error(`Cannot find file ${path}`);
     const content = fs.readFileSync(path).toString().replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
     try {
         JSON.parse(content);
     } catch(err) {
-        throw new Error(`Invalid JSON in folder ${path}`)
+        throw new Error(`Invalid JSON in file ${path}`);
     };
     return JSON.stringify(JSON.parse(content));
 };
