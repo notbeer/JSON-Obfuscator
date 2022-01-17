@@ -11,6 +11,14 @@
     "name": "notbeer",
     "discord": "notbeer#9204"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notbeer/JSON-Obfuscator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/notbeer/JSON-Obfuscator/issues"
+  },
+  "homepage": "https://github.com/notbeer/JSON-Obfuscator#readme",
   "license": "AGPL-3.0-or-later",
   "keywords": [
     "obfuscator",
