@@ -1,7 +1,7 @@
 {
   "name": "json-obfuscator",
-  "version": "2.0.0",
-  "description": "Module to obfuscate JSON",
+  "version": "2.0.1",
+  "description": "Package to obfuscate JSON",
   "main": "src/index.js",
   "scripts": {
     "test": "node tests/index.test.js"

@@ -4,7 +4,7 @@ declare module "json-obfuscator" {
      * @param {string} value - JSON string to obfuscate.
      * @returns {string}
      */
-    export type obfuscateString = (value: string) => void;
+    export function obfuscateString(value: string): void;
     /**
      * Obfuscate an JSON file.
      * @param {string} path - The path of the file to obfuscate.
