@@ -1,111 +1,50 @@
 const fs = require('fs');
-const path = require('path');
+
+const { validateJSON } = require('./utils/validate');
+const { obfuscate } = require('./utils/obfuscator');
+const { File } = require('./utils/file');
+const {
+    crawlFolder,
+    crawlDir
+} = require('./utils/crawler');
+
+const file = new File();
 
 /**
- * Escape string to unicode
- * @param {string} value 
+ * Obfuscate an JSON string.
+ * @param {string} value - JSON string to obfuscate.
  * @returns {string}
  */
-function escapeToUnicode(value) {
-    for(var newString = '', i = 0, unicode; !isNaN(unicode = value.charCodeAt(i++));)
-        newString += '\\u' + `0000${unicode.toString(16)}`.slice(-4);
-    return newString;
-};
+const obfuscateString = (value) => obfuscate(validateJSON(value));
 /**
- * Validate JSON first. Obfuscate a whole json string
- * @param {string} value
- * @returns {string}
- */
-function obfuscateJSON(value) {
-    const stringRegex = /"(?:"|.)*?"/gm;
-    
-    const syntaxArr = value.split(stringRegex), stringArr = `"${value}"`.split(stringRegex).slice(1, -1);
-    
-    let unicodeArr = [], obfuscated = '';
-    stringArr.forEach(str => unicodeArr.push(`"${escapeToUnicode(str).replace(/\\u005c$/g, '\\')}"`));
-    syntaxArr.map((value, index) => obfuscated += `${value}${unicodeArr[index] ? unicodeArr[index] : ''}`);
-
-    return obfuscated;
-};
-
-/**
- * Get content of file
- * @param {string} path
- * @returns {string}
- */
-function getFileContent(path) {
-    if(!fs.existsSync(path)) throw new Error(`Cannot find file ${path}`);
-    const content = fs.readFileSync(path).toString().replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
-    try {
-        JSON.parse(content);
-    } catch(err) {
-        throw new Error(`Invalid JSON in file ${path}`);
-    };
-    return JSON.stringify(JSON.parse(content));
-};
-/**
- * Find every file in a folder
- * @param {string} dir
- * @returns {Array<string>}
- */
-function crawlFolder(dir) {
-    if(!fs.existsSync(dir)) throw new Error(`Cannot find directory ${dir}`);
-    return fs.readdirSync(dir, { withFileTypes: true })
-        .filter(content => !content.isDirectory())
-        .map(content => path.join(dir, content.name));
-};
-/**
- * Find every file in a directory
- * @param {string} dir
- */
-function* crawlDir(dir) {
-    if(!fs.existsSync(dir)) throw new Error(`Cannot find directory ${dir}`);
-    for(const content of fs.readdirSync(dir, { withFileTypes: true })) {
-        content.isDirectory()
-        ? yield* crawlDir(path.join(dir, content.name))
-        : yield path.join(dir, content.name);
-    };
-};
-
-/**
- * Obfuscates a json file
- * @param {string} path 
+ * Obfuscate an JSON file.
+ * @param {string} path - The path of the file to obfuscate.
  */
 function obfuscateFile(path) {
-    if(!path.endsWith('.json')) throw new Error(`Not a valid json file ${path}`);
-    fs.writeFile(path, obfuscateJSON(getFileContent(path)), 'utf-8', (err, data) => {
-        if(err) throw new Error(`An unexpected error occured ${err}`);
-    });
+    if(fs.lstatSync(path).isFile()) file.save(path, obfuscate(file.get(path)));
 };
 /**
- * Obfuscates all json file(s) in a folder
- * @param {string} dir
+ * Obfuscates all JSON file(s) in a directory, excluding sub folders.
+ * @param {string} dir - The files in the directory you want to obfuscate.
  */
 function obfuscateFolder(dir) {
-    const paths = crawlFolder(dir);
-    if(!paths.length) throw new Error(`No JSON file found in the folder ${dir}`);
-    for(let path of paths) {
-        if(path.endsWith('.json')) {
-            obfuscateFile(path);
-        };
+    for(const path of crawlFolder(dir, '.json')) {
+        file.save(path, obfuscate(file.get(path)))
     };
 };
 /**
- * Obfuscates all json file(s) in a directory
- * @param {string} dir
+ * Obfuscates all JSON file(s) in a directory, including sub folders.
+ * @param {string} dir - The files in the directory you want to obfuscate.
  */
 function obfuscateDir(dir) {
-    const paths = crawlDir(dir), check = paths;
-    if(check.next().done) throw new Error(`No JSON file found in the directory ${dir}`);
-    for(let path of crawlDir(dir)) {
-        if(path.endsWith('.json')) {
-            obfuscateFile(path);
-        };
+    for(const path of crawlDir(dir, '.json')) {
+        file.save(path, obfuscate(file.get(path)))
     };
 };
 
 module.exports = {
-    obfuscateFile,
+    obfuscateString,
     obfuscateFolder,
+    obfuscateFile,
     obfuscateDir
 };

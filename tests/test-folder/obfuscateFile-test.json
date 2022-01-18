@@ -1,6 +1,13 @@
+// Ignores comments
+/*
+ignore this type of comment too
+*/
+    /**
+     * Ignore this type too
+     */
 {
     "glossary": {
-        "title": "example glossary",
+        "title": "example glossary", // Test
 		"GlossDiv": {
             "title": "S",
 			"GlossList": {
