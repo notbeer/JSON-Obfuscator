@@ -14,8 +14,6 @@ const jsonObf = require("json-obfuscator");
 ```
 3. Example of All Functions
 ```js
-const jsonObf = require("json-obfuscator");
-
 (async () => {
     /**
      * Obfuscate an json string 
